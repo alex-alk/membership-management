@@ -10,3 +10,6 @@ To add identity pages:
 - right click on Areas -> Add Scaffolded items -> Identity -> select all 
 
 admin: admin@localhost, P@ssword1
+
+How to publish:
+>dotnet publish -c Release
