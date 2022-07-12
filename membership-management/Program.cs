@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace membership_management
@@ -17,10 +18,19 @@ namespace membership_management
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
+        Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((context, config) =>
+                {
+                    var assembly = Assembly.GetExecutingAssembly();
+                    var currentPath = System.IO.Path.GetDirectoryName(assembly.Location);
+
+                    config.SetBasePath(currentPath);
+                    config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: false);
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                }
+                );
     }
 }
