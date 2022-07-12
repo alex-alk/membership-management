@@ -1,0 +1,30 @@
+﻿@model membership_management.Models.CreateMembershipAllocationVM
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Membership Types
+            </th>
+
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.MembershipTypes) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <a class="btn btn-outline-success" asp-action="SetMembership" asp-route-id="@item.Id">
+                <i class="fas fa-user-edit"></i>Allocate to employees</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

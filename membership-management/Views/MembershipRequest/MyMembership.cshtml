@@ -1,0 +1,91 @@
+﻿@model EmployeeMembershipRequestViewVM
+
+@{
+    ViewData["Title"] = "MyMembership";
+}
+
+<h1>My membership allocations</h1>
+<div class="jumbotron">
+    <div class="card" style="width: 18rem;">
+        <ul class="list-group list-group-flush">
+            @foreach (var item in Model.MembershipAllocations)
+            {
+                <li class="list-group-item">
+                    <h6>@item.MembershipType.Name <span class="badge badge-secondary">@item.NumberOfDays</span> </h6>
+                </li>
+            }
+        </ul>
+
+    </div>
+</div>
+
+<hr />
+<h1>My membership records</h1>
+<table id="tblData" class="table">
+    <thead>
+        <tr>
+            <th>
+                Membership type
+            </th>
+            <th>
+                Start date
+            </th>
+            <th>
+                End date
+            </th>
+            <th>
+                Date requested
+            </th>
+            <th>
+                Approval state
+            </th>
+            <th>
+                Cancel request
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.MembershipRequests) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MembershipType.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateRequested)
+            </td>
+            <td>
+                @if (item.Cancelled)
+                {
+                    <span class="badge badge-secondary">Cancelled</span>
+                }
+                else if (item.Approved == true)
+                {
+                    <span class="badge badge-success">Approved</span>
+                }
+                else if (item.Approved == false)
+                {
+                    <span class="badge badge-success">Rejected</span>
+                }
+                else
+                {
+                    <span class="badge badge-success">Pending approval</span>
+                }
+            </td>
+            <td>
+                @if (!item.Cancelled && item.StartDate > DateTime.Now || item.Approved == true)
+                {
+                    <a asp-action="CancelRequest" class="btn btn-danger" asp-route-id="@item.Id" onclick="return confirm('Are you sure?')">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </a>
+                 }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
