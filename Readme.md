@@ -1,4 +1,4 @@
-﻿Membership management website
+﻿#Membership management website
 
 how to add migrations:
 >dotnet ef migrations add InitialCreate
